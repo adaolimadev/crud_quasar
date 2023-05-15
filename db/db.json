@@ -7,16 +7,22 @@
       "content": "Artigo sobre alguma coisa"
     },
     {
-      "id": 2,
-      "title": "json-server",
-      "author": "typicode",
-      "content": "Artigo sobre alguma coisa"
+      "title": "Um post bem loko",
+      "author": "Adao ",
+      "content": "Loko é poco!",
+      "id": 2
     },
     {
-      "id": 6,
-      "title": "json-server",
-      "author": "typicode",
-      "content": "Artigo sobre alguma coisa"
+      "title": "Era um",
+      "author": "Lima ",
+      "content": "Loko é<b> poco!</b>",
+      "id": 3
+    },
+    {
+      "title": "Nada",
+      "author": "Nada",
+      "content": "Nada",
+      "id": 4
     }
   ]
 }

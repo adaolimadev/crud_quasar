@@ -6,8 +6,14 @@
       :columns="columns"
       row-key="name"
     >
-      <template v-slot:body-cell-actions="props">
-        <q-td :props="props">
+    <template v-slot:top>
+        <span class="text-h5">POSTS</span>
+        <q-space />
+        <q-btn color="primary" icon="add" label="Novo Post" :to="{ name: 'formPost' }" />
+    </template>
+    <template v-slot:body-cell-actions="props">
+        <q-td :props="props" class="q-gutter-sm">
+          <q-btn round icon="edit " color="primary" @click="editPost(props.row.id)"/>
           <q-btn round icon="delete" color="negative" @click="deletePost(props.row.id)"/>
         </q-td>
       </template>
@@ -19,12 +25,14 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import postService from 'src/services/posts'
 import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'IndexPage',
   setup () {
     const posts = ref([])
     const { list, remove } = postService()
+    const router = useRouter()
 
     const columns = [
       { name: 'id', field: 'id', label: 'ID', sortable: true, align: 'left' },
@@ -50,19 +58,31 @@ export default defineComponent({
 
     const deletePost = async (id) => {
       try {
-        await remove(id)
-        $q.notify({ message: 'Apagado com sucesso', icon: 'check', color: 'positive' })
-        await getPosts()
+        $q.dialog({
+          title: 'Confirm',
+          message: `Deseja realmente excluir o post de ID: ${id} ?`,
+          cancel: true,
+          persistent: true
+        }).onOk(async () => {
+          await remove(id)
+          $q.notify({ message: 'Apagado com sucesso', icon: 'check', color: 'positive' })
+          await getPosts()
+        })
       } catch (error) {
         console.log(error)
         $q.notify({ message: 'Erro ao apagar post!', icon: 'times', color: 'negative' })
       }
     }
 
+    const editPost = (id) => {
+      router.push({ name: 'formPost', params: { id } })
+    }
+
     return {
       posts,
       columns,
-      deletePost
+      deletePost,
+      editPost
     }
   }
 })
