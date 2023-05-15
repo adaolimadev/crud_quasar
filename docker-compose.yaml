@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  vue-quasar:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+      - "9000:9000"
+    command: vue ui --headless --port 8000 --host 0.0.0.0
+    container_name: vue-quasar
+  vue-json:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    command: json-server --host 0.0.0.0 --watch db/db.json
+    container_name: vue-json
+
